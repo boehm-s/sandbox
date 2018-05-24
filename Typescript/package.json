@@ -1,0 +1,25 @@
+{
+  "name": "ts-user-service",
+  "version": "1.0.0",
+  "description": "db agnostic user api written in TypeScript",
+  "main": "app.js",
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.1",
+    "@types/es6-shim": "^0.31.37",
+    "@types/express": "^4.11.1",
+    "@types/express-session": "^1.15.8",
+    "@types/morgan": "^1.7.35",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "morgan": "^1.9.0",
+    "typescript": "^2.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Steven BOEHM <boehm_s@seed-up.io> (https://stackoverflow.com/users/4756304/boehm-s?tab=profile)",
+  "license": "ISC"
+}
