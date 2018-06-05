@@ -1,0 +1,34 @@
+defmodule MusicLib do
+  require FileExt
+  @music_path "./mp3"
+
+  def collect_metadata() do
+    mp3Files = FileExt.ls_r(@music_path)
+    IO.inspect  mp3Files
+  end
+
+  def get_file_stat(filePath) do
+    {:ok, contents} = File.read(filePath)
+
+    result = ID3v2.frames(contents)
+    IO.inspect result
+
+    result
+  end
+
+end
+
+
+defmodule FileExt do
+  def ls_r(path \\ ".") do
+    cond do
+      File.regular?(path) -> [path]
+      File.dir?(path) ->
+        File.ls!(path)
+        |> Enum.map(&Path.join(path, &1))
+        |> Enum.map(&ls_r/1)
+        |> Enum.concat
+      true -> []
+    end
+  end
+end
