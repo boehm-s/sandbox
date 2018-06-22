@@ -3,6 +3,6 @@ defmodule MusicTest do
   # doctest Music
 
   test "FUCK the world" do
-    Music.collect_metadata()
+    IO.inspect Music.collect_metadata()
   end
 end
