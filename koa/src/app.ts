@@ -1,24 +1,35 @@
-import * as Koa    from 'koa';
-import * as Router from 'koa-router';
+import * as Koa        from 'koa';
+import * as Router     from 'koa-router';
+import * as bodyParser from 'koa-bodyparser';
+import {connectDB}     from './config/db';
+import UsersRouter     from './Users/users.route';
 
+const PORT = process.env.PORT || 3000;
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/koa-test';
 const app    = new Koa();
 
-app.use(async (ctx, next) => {
-    // Log the request to the console
-    console.log('Url:', ctx.url);
-    // Pass the request to the next middleware function
-    await next();
-});
+(async () => {
 
+    await connectDB(DB_URI);
 
-const router = new Router();
+    app.use(bodyParser());
+    app.use(async (ctx, next) => {
+        console.log('Url:', ctx.url); // Log the request to the console
+        await next(); // Pass the request to the next middleware function
+    });
 
-router.get('/*', async (ctx) => {
-    ctx.body = 'Hello World!';
-});
+    const mainRouter = new Router();
 
-app.use(router.routes());
+    mainRouter.get('/hello*', async (ctx) => {
+        ctx.body = 'Hello World!';
+    });
 
-app.listen(3000);
+    // mount users routes on main router
+    mainRouter.use('/users', UsersRouter.routes(), UsersRouter.allowedMethods());
 
-console.log('Server running on port 3000');
+    app.use(mainRouter.routes());
+    app.listen(PORT);
+
+    console.log(`Server running on port ${PORT}`);
+
+})();
