@@ -1,31 +1,31 @@
-import { Observable } from 'rxjs/Observable';
-
+import { Observable }        from 'rxjs/Observable';
+import { AbstractProvider }  from '../AbstractProvider';
+import { Flight }            from '../../Flights/Flight'
 
 interface FlightSearchParams {
-    origin: string;
-    destination: string;
-    departureDate: Date;
-    returnDate: Date;
+    origin        : string;
+    destination   : string;
+    departureDate : Date;
+    returnDate    : Date;
 }
 
-interface Flight {
-
+interface FlightBookingResult {
 }
 
-abstract class AbstractFlightProvider {
-    name          : string;
-    logo          : string;
-    fee_fix       : number;
-    fee_variable  : number;
-    fee_direction : boolean;
+export abstract class AbstractFlightProvider extends AbstractProvider<Flight> {
 
-    constructor(name: string, logo: string, fee_fix: number, fee_variable: number, fee_direction: boolean) {
-        this.name          = name;
-        this.logo          = logo;
-        this.fee_fix       = fee_fix;
-        this.fee_variable  = fee_variable;
-        this.fee_direction = fee_direction;
+    constructor(
+        public  name          : string,
+        public  logo          : string,
+        private fee_fix       : number,
+        private fee_variable  : number,
+        private fee_direction : boolean
+    ) {
+        super(name, logo, fee_fix, fee_variable, fee_direction);
     }
 
-    abstract findFlights(searchParams: FlightSearchParams): Observable<Flight[]>;
+    abstract find(searchParams: FlightSearchParams): Observable<Flight[]>;
+
+    abstract book(flightPrice: FlightPrice): FlightBookingResult;
+
 }
