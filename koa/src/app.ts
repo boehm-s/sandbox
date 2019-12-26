@@ -2,7 +2,7 @@ import * as Koa        from 'koa';
 import * as Router     from 'koa-router';
 import * as bodyParser from 'koa-bodyparser';
 import {connectDB}     from './config/db';
-import UsersRouter     from './Users/users.route';
+import UsersRouter     from './api/users/users.routes';
 
 const PORT = process.env.PORT || 3000;
 const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/koa-test';

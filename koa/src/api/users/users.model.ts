@@ -1,10 +1,5 @@
 import { Document, Schema, Model, model} from "mongoose";
-import { IUser } from "./users.interface";
-
-interface IUserModel extends IUser, Document {
-  fullName(): string;
-}
-
+import { IUser, IUserModel } from "../../core/Users/User";
 
 const UserSchema: Schema = new Schema({
     createdAt: Date,

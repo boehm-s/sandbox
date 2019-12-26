@@ -1,9 +1,9 @@
-import {ICreateUserInput, IDisplayUser} from './users.interface';
+import {ICreateUserInput, IDisplayUser, IUser, IUserModel} from '../../core/Users/User';
 import {User} from './users.model';
 
 const getAllUsers = async function():Promise<IDisplayUser[]> {
     const users = await User.find({});
-    const usersToDisplay = users.map(u => ({
+    const usersToDisplay = users.map((u: IUserModel) => <IDisplayUser>({
         email: u.email,
         firstName: u.firstName,
         lastName: u.lastName
@@ -14,7 +14,7 @@ const getAllUsers = async function():Promise<IDisplayUser[]> {
 
 const createUser = async function (body:ICreateUserInput):Promise<IDisplayUser> {
     const _user = new User(body);
-    const user = await _user.save();
+    const user: IUser = await _user.save();
     const userToDisplay = {
         email: user.email,
         firstName: user.firstName,

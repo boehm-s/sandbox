@@ -1,3 +1,5 @@
+import { Document } from "mongoose";
+
 interface IUser extends Document {
     email: string;
     firstName: string;
@@ -19,4 +21,8 @@ interface ICreateUserInput {
     password: IUser['password'];
 }
 
-export {IUser, IDisplayUser, ICreateUserInput};
+interface IUserModel extends IUser, Document {
+    fullName(): string;
+}
+
+export {IUser, IDisplayUser, ICreateUserInput, IUserModel};
