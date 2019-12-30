@@ -2,7 +2,7 @@ import { Observable }        from 'rxjs/Observable';
 import { AbstractProvider }  from '../AbstractProvider';
 import { Flight }            from '../../Flights/Flight'
 
-interface FlightSearchParams {
+interface AbstractFlightSearchParams {
     origin        : string;
     destination   : string;
     departureDate : Date;
@@ -24,7 +24,9 @@ export abstract class AbstractFlightProvider extends AbstractProvider<Flight> {
         super(name, logo, fee_fix, fee_variable, fee_direction);
     }
 
-    abstract find(searchParams: FlightSearchParams): Observable<Flight[]>;
+    abstract buildSearchParams(searchParams: AbstractFlightSearchParams): any;
+
+    abstract find(searchParams: AbstractFlightSearchParams): Observable<Flight[]>;
 
     abstract book(flightPrice: FlightPrice): FlightBookingResult;
 
