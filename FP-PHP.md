@@ -16,7 +16,7 @@ In a programming language, functions are "**first-class citizens**" if they are 
 - assign them to variable
 
 Functions that can either take other functions as arguments or return them as results are called **higher-order functions**.
-With that said, you might realize that PHP does implements these concepts and that you've probably used them them alreday with some array functions like `array_map`, `array_filter` or `array_reduce`. Here is a trivial example :
+With that said, you might realize that PHP does implements these concepts and that you've probably used them alreday with some array functions like `array_map`, `array_filter` or `array_reduce`. Here is a trivial example :
  
  ```PHP
 $oneToFive = [1, 2, 3, 4, 5];
@@ -124,7 +124,7 @@ And on that too, PHP is not helping, because it includes in his standard library
 class MyObj {
     public $myArray;
     
-    public function __construct() {5
+    public function __construct() {
         $this->myArray = [1, 2, 3, 4, 5];
     }
     
@@ -177,7 +177,7 @@ If you are tired of whisking, you can assemble a whisk to a motor, and you get a
 
 Now, say that somehow, you've poorly built your hand mixer and it doesn't just whisks the ingredients that it processes but it also heats them. You've got a **side effect**.
 
-Function composition is essential if you don't wat to repeat yourself (DRY), but can you only imagine the shape of your *pièce montée* using poorly built tools (funtions causing side effects) ? 
+Function composition is essential if you don't want to repeat yourself (DRY), but can you only imagine the shape of your *pièce montée* using poorly built tools (funtions causing side effects) ? 
 
 That's why purity matters, because we want great pastries !
 
@@ -226,6 +226,6 @@ Fortunatly, working with associative arrays is how I spend half of my time (at l
 
 That's why I've developed [*fun-php*](https://github.com/boehm-s/fun-php) : a bunch of little FP utilities for PHP.
 
-I hope it can benefit others, who (like me) come from the JS world and miss the excellent [Ramda librairy](https://ramdajs.com/) !
+I hope it can benefit others, who (like me) come from the JS world and miss the excellent [Ramda library](https://ramdajs.com/) !
 
 
