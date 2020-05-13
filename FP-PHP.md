@@ -1,5 +1,8 @@
 # Functional programming in PHP : Why not ?
 
+![PHP illustration](./img/elephant.jpg)
+
+
 When we talk about functional programming (FP), PHP may not be the first language that comes to mind.
 Indeed, we'd rather ear about Haskell, Lisp or Javascript, because these languages better suits the paradigm.
 For instance, Wikipedia tells us that Haskell is a "purely functional programming language", as for PHP, it is a "general purpose scripting language".
@@ -181,8 +184,7 @@ Function composition is essential if you don't want to repeat yourself (DRY), bu
 
 That's why purity matters, because we want great pastries !
 
-![pièce montée](https://assets.afcdn.com/recipe/20170710/70176_w600.jpg)
-
+![pièce montée](./img/piece_montee.jpg)
 
 
 So function composition is the act of combining functions, but how do we do it ? 
