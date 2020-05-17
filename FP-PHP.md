@@ -1,5 +1,7 @@
 # Functional programming in PHP : Why not ?
 
+An exploration of functional programming techniques with PHP.
+
 ![PHP illustration](./img/elephant.jpg)
 
 
@@ -19,7 +21,7 @@ In a programming language, functions are "**first-class citizens**" if they are 
 - assign them to variable
 
 Functions that can either take other functions as arguments or return them as results are called **higher-order functions**.
-With that said, you might realize that PHP does implements these concepts and that you've probably used them alreday with some array functions like `array_map`, `array_filter` or `array_reduce`. Here is a trivial example :
+With that said, you might realize that PHP does implements these concepts and that you've probably used them already with some array functions like `array_map`, `array_filter` or `array_reduce`. Here is a trivial example :
  
  ```PHP
 $oneToFive = [1, 2, 3, 4, 5];
@@ -121,7 +123,7 @@ OK, so PHP isn't making it easy for us with immutability, but at least variables
 
 BUT, when passing objects the value passed to the function is the object's handle (which acts as a reference to the object), so to write pure functions that accepts objects as parameter, you must only read objects and not modify them ! 
 
-And on that too, PHP is not helping, because it includes in his standard library a lot of impure functions ! Below, the example of the `end` function :
+And on that too, PHP is not helping, because it includes in its standard library a lot of impure functions ! Below, the example of the `end` function :
 
 ```PHP
 class MyObj {
