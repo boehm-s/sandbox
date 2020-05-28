@@ -66,9 +66,61 @@ But that's not very handy, and quite wordy also. We don't want to create a new c
 
 Instead we'd rather pass to our mapping function exactly the number of arguments it expects and that's where Reflection come into play !
 
-## What is Reflection ? 
+## What is Reflection and how can it help ? 
 
 Let's start with a simple Wikipedia quote : 
 
 > In computer science, reflection is the ability of a process to examine, introspect, and modify its own structure and behavior. 
 
+What it means for us is that we can have some informations about our variables / functions / classes at runtime. For instance, we can have a list of methods from a class, or a function's parameters : 
+
+```PHP
+$functionReflection = new ReflectionFunction('implode');
+$parameters = $functionReflection->getParameters();
+
+var_dump($parameters);
+
+// array(2) {
+//   [0]=>
+//   object(ReflectionParameter)#2 (1) {
+//     ["name"]=>
+//     string(4) "glue"
+//   }
+//   [1]=>
+//   object(ReflectionParameter)#3 (1) {
+//     ["name"]=>
+//     string(6) "pieces"
+//   }
+// }
+```
+
+Here, we've learned (at runtime) that the `implode` function takes 2 parameters : one named "glue" and another one named "pieces". 
+
+You may now see how reflection can help us solve our problem ! Reflection allows us to know how many parameters a function expects, in other words, we can determine a function's [**arity**](https://en.wikipedia.org/wiki/Arity) !
+
+And if we know our function's arity, then we can give it exactly the number of arguments it expects ! OK, let's put all that words into code : 
+
+```PHP
+function _arity(Callable $fn) {
+    $reflection = new ReflectionFunction($fn);
+    $arguments = $reflection->getParameters();
+
+    return count($arguments);
+}
+
+function _map(Callable $fn, iterable $array) {
+    $result = [];
+    $fnArity = _arity($fn);
+
+    foreach ($array as $key => $value) {
+        $args = [$value, $key, $array];
+        $tailoredArgs = array_slice($args, 0, $fnArity);
+
+        $result[] = $fn(...$tailoredArgs); // we onloy pass to our mapping function the arguments it needs
+    }
+
+    return $result;
+}
+```
+
+map merge example ?
