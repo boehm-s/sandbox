@@ -98,7 +98,7 @@ Here, we've learned (at runtime) that the `implode` function takes 2 parameters 
 
 You may now see how reflection can help us solve our problem ! Reflection allows us to know how many parameters a function expects, in other words, we can determine a function's [**arity**](https://en.wikipedia.org/wiki/Arity) !
 
-And if we know our function's arity, then we can give it exactly the number of arguments it expects ! OK, let's put all that words into code : 
+And if we know our function's arity, then we can give it exactly the number of arguments it expects ! OK, let's put all of that into code : 
 
 ```PHP
 function _arity(Callable $fn) {
@@ -116,11 +116,47 @@ function _map(Callable $fn, iterable $array) {
         $args = [$value, $key, $array];
         $tailoredArgs = array_slice($args, 0, $fnArity);
 
-        $result[] = $fn(...$tailoredArgs); // we onloy pass to our mapping function the arguments it needs
+        $result[] = $fn(...$tailoredArgs); // we only pass to our mapping function the arguments it needs
     }
 
     return $result;
 }
 ```
 
-map merge example ?
+## Real world example
+
+Consider the following JSON : 
+
+```JSON
+[{
+    id: 42,
+    title: "Another travel in the wall",
+    user_id: 45,
+    items: [
+        { type: 1,  description: "Car travel item ..."},
+        { type: 2,  description: "Hotel travel item ..."}
+    ]
+}, {
+    id: 43,
+    title: "This ain't the summer of travel",
+    user_id: 1360,
+    items: [
+        { type: 2,  description: "Hotel travel item ..."},
+        { type: 3,  description: "Flight travel item ..."}
+    ]
+}, {
+    id: 44,
+    title: "I'd love to change the travel",
+    user_id: 45,
+    items: [
+        { type: 4,  description: "Car travel item ..."},
+        { type: 2,  description: "Hotel travel item ..."}
+    ]
+}]
+```
+
+It represents a list of travels, each one with different travel items: a car rental for instance or a flight.
+
+(I deal with this kind of input on a daily basis, that's why I called this part "real world example").
+
+Now, say that we want all the hotel items (type 2) for user number 45, but we also want to keep the title of the travel.
