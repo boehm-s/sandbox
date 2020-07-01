@@ -129,34 +129,48 @@ Consider the following JSON :
 
 ```JSON
 [{
-    id: 42,
-    title: "Another travel in the wall",
-    user_id: 45,
-    items: [
-        { type: 1,  description: "Car travel item ..."},
-        { type: 2,  description: "Hotel travel item ..."}
+    "id": 42,
+    "title": "Another travel in the wall",
+    "user_id": 45,
+    "items": [
+        { "type": 1,  "description": "Car travel item ..."},
+        { "type": 2,  "description": "Hotel travel item ..."},
+        { "type": 2,  "description": "Another Hotel ..."}
     ]
 }, {
-    id: 43,
-    title: "This ain't the summer of travel",
-    user_id: 1360,
-    items: [
-        { type: 2,  description: "Hotel travel item ..."},
-        { type: 3,  description: "Flight travel item ..."}
+    "id": 43,
+    "title": "This ain\'t the summer of travel",
+    "user_id": 1360,
+    "items": [
+        { "type": 2,  "description": "Hotel travel item ..."},
+        { "type": 3,  "description": "Flight travel item ..."}
     ]
 }, {
-    id: 44,
-    title: "I'd love to change the travel",
-    user_id: 45,
-    items: [
-        { type: 4,  description: "Car travel item ..."},
-        { type: 2,  description: "Hotel travel item ..."}
+    "id": 44,
+    "title": "I\'d love to change the travel",
+    "user_id": 45,
+    "items": [
+        { "type": 2,  "description": "First hotel of the travel ..."},
+        { "type": 4,  "description": "Car travel item ..."},
+        { "type": 2,  "description": "Hotel travel item ..."}
     ]
 }]
 ```
 
-It represents a list of travels, each one with different travel items: a car rental for instance or a flight.
+It represents a list of travels, each one with different travel items: a car rental for instance, a hotel or a flight.
 
-(I deal with this kind of input on a daily basis, that's why I called this part "real world example").
+(I deal with this kind of input every day, that's why I called this part "real world example").
 
-Now, say that we want all the hotel items (type 2) for user number 45, but we also want to keep the title of the travel.
+Now, say that we want all the hotel items (type 2), but we also want to keep the index of the travel in the array, here's what we can come up with : 
+
+```PHP
+$travels = json_decode($my_travels_json, true);
+
+$hotels = F::flatMap(function ($travel, $i) {
+    return F::pipe(
+        F::filter(F::propEq('type', 2)),
+        F::map(F::merge(['travel_index' => $i])) // keep index for faster access later
+    )($travel['items']);
+}, $travels);
+```
+
