@@ -159,7 +159,7 @@ Consider the following JSON :
 
 It represents a list of travels, each one with different travel items: a car rental for instance, a hotel or a flight.
 
-(I deal with this kind of input every day, that's why I called this part "real world example").
+(I deal with this kind of input every day, that's why I called this part "Real world example").
 
 Now, say that we want all the hotel items (type 2), but we also want to keep the index of the travel in the array, here's what we can come up with : 
 
@@ -172,5 +172,49 @@ $hotels = F::flatMap(function ($travel, $i) {
         F::map(F::merge(['travel_index' => $i])) // keep index for faster access later
     )($travel['items']);
 }, $travels);
+```
+
+The `F::merge` function is automatically curried, so each item of my array will be merge with the array `['travel_index' => $i]` :
+
+```JSON
+[{
+    "travel_index": 0,
+    "type": 2,
+    "description": "Hotel travel item ..."
+}, {
+    "travel_index": 0,
+    "type": 2,
+    "description": "Another Hotel ..."
+}, {
+    "travel_index": 1,
+    "type": 2,
+    "description": "Hotel travel item ..."
+}, {
+    "travel_index": 2,
+    "type": 2,
+    "description": "First hotel of the travel ..."
+}, {
+    "travel_index": 2,
+    "type": 2,
+    "description": "Hotel travel item ..."
+}]
+
+```
+
+`F::map` and `F::flatMap` both use our function `_map` internally. And `F::filter` also works the same way. This example demonstrate the versatility of what we've built here : 
+ 
+- We can access the keys of the array we are iterating on (in this example, the index `$i`)
+- We don't have to worry about the arity of our mapping function since we'll give it the parameters it expects.
+
+The latter allows us to combine (compose) our functions without necessarely having to declare a new anonymous function : 
+
+```PHP
+F::filter(F::propEq($x, $y))
+
+// And not
+
+F::filter(function($z) use ($x, $y) {
+  return F::propEq($x, $y, $z);
+})
 ```
 
