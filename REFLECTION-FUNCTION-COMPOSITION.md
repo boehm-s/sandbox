@@ -1,6 +1,11 @@
 # Using Reflection for tailored function composition
 # An example with a re-implementation of `array_map` in PHP
 
+![Reflection PHP illustration](./img/elephant-reflection.jpg)
+
+
+> **Note:** This article requires understanding of basic functional programming techniques. If you're unfamiliar with that, you can read my previous article on [functional programming in PHP](https://medium.com/swlh/functional-programming-in-php-why-not-291ded3a3bec) !
+
 ## The initial problem
 
 There are plenty of reasons why one would want to re-implement the `array_map` function. Mine is that I want it to be curried and to behave a bit more like the JS `Array#map` method.
@@ -217,4 +222,7 @@ F::filter(function($z) use ($x, $y) {
   return F::propEq($x, $y, $z);
 })
 ```
+
+Our [utility functions](https://github.com/boehm-s/fun-php) (`map` / `filter` / `propEq` ...) can be combined in a elegant, concise and tailored way, hence the title !
+
 
