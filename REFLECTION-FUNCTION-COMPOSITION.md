@@ -1,13 +1,18 @@
 # Using Reflection for tailored function composition
 # An example with a re-implementation of `array_map` in PHP
 
+![Reflection PHP illustration](./img/elephant-reflection.jpg)
+
+
+> **Note:** This article requires understanding of basic functional programming techniques. If you're unfamiliar with that, you can read my previous article on [functional programming in PHP](https://medium.com/swlh/functional-programming-in-php-why-not-291ded3a3bec) !
+
 ## The initial problem
 
 There are plenty of reasons why one would want to re-implement the `array_map` function. Mine is that I want it to be curried and to behave a bit more like the JS `Array#map` method.
 
-In the original version of `array_map`, if I want the keys of my array passed to the callback function, I have to pass the keys as additional (third) argument. 
+In the original version of `array_map`, if I wanted the keys of my array passed to the callback function, I'd have to pass the keys as additional (third) argument. 
 
-And if I want to use the array in the callback function, I'll have to bring it in the closure with the `use` statement, which can lead to impure code if I pass the array by reference and modify it.
+And if I want to use the array in the callback function, I'll have to bring it in the closure with the `use` statement, which can lead to impure code if I pass the array by reference and modify it or if I'm iterating over a `Traversable` object.
 
 ```PHP
 $a = [1, 2, 3, 4, 5];
@@ -217,4 +222,7 @@ F::filter(function($z) use ($x, $y) {
   return F::propEq($x, $y, $z);
 })
 ```
+
+Our [utility functions](https://github.com/boehm-s/fun-php) (`map` / `filter` / `propEq` ...) can be combined in a elegant, concise and tailored way, hence the title !
+
 
