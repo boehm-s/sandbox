@@ -8,7 +8,7 @@
 
 ## The initial problem
 
-There are plenty of reasons why one would want to re-implement the `array_map` function. Mine is that I want it to be curried and to behave a bit more like the JS `Array#map` method.
+There are plenty of reasons why one would want to re-implement the `array_map` function. Mine is that I want it to be curried and to behave a bit more like the JS [`Array#map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) method.
 
 In the original version of `array_map`, if I wanted the keys of my array passed to the callback function, I'd have to pass the keys as additional (third) argument. 
 
