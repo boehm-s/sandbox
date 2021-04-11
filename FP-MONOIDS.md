@@ -17,9 +17,14 @@ Which means that a Monoid is the following 3 things together :
 
 The most common examples are the following : 
 
-- Integers (**S**) under addition (**•**), the neutral element being 0 (**e**) : 0 + *x* = *x* = *x* + 0
-- Integers (**S**) under multiplication (**•**), the neutral element being 1 (**e**) : 1 * *x* = *x* = *x* * 1
-- Lists (**S**) under concatenation (**•**), the neutral element being an empty list (**e**)
+| **S**                  |  **•**           | **e**                  | *example (identity)*                      |
+|------------------------|------------------|------------------------|-------------------------------------------|
+| Integers               | *addition*       | `0`                    | `42 + 0 === 42 && 42 === 0 + 42`          |
+| Integers               | *multiplication* | `1`                    | `42 * 1 === 42 && 42 === 1 * 42`          |
+| Lists                  | *concatenation*  | `[]` (empty list)      | `[4, 8].concat([])` ⇔ `[].concat([4, 8])` |
+| Associative containers | *merge*          | `{}` (empty container) | `{...{}, foo: 42}` ⇔ `{foo: 42, ...{}}`   |
+
+If we turn some of them into code, here's what it looks like : 
 
 ```TS
 // For character list, the associative binary operation is + (string concatenation) and we have : 
@@ -42,9 +47,6 @@ const neutralRight : bool = R.equals(numArray.concat(e), numArray);
 console.log(neutralLeft && neutralRight); // true
 ```
 
-Other useful example of monoids that you've already been using without calling them monoids are : 
-
-- Associative containers (**S**) under union / merge (**•**), the neutral element being an empty container (**e**)
 
 ## Why you should care about it ? 
 
