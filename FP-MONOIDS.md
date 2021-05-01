@@ -34,8 +34,8 @@ let's write a little piece of code to illustrate what we're talking about :
 ```TS
 // For character list, the associative binary operation is + (string concatenation) and we have : 
 
-const str : String = "Hello";
-const e   : String = "";      // empty list of character
+const str : string = "Hello";
+const e   : string = "";      // empty list of character
 e + str === e;                // => true (neutral on the left side)
 str + e === e;                // => true (neutral on the right side)
 
@@ -43,23 +43,38 @@ str + e === e;                // => true (neutral on the right side)
 // For arrays, the associative binary operation is the concat method :
 // To compare arrays by values, we'll use Ramda's function R.equals
 
-const numArray : Number[] = [1, 2, 3];
-const e        : Number[] = [];           // empty list of numbers
+const numArray : number[] = [1, 2, 3];
+const e        : number[] = [];           // empty list of numbers
 R.equals(e.concat(numarray), numArray);   // => true (neutral on the left side)
 R.equals(numArray.concat(e), numArray);   // => true (neutral on the right side)
 ```
 
 ### The Monoid Interface
 
-Now that we know what makes a Monoid, the rules a set have to obey to form a Monoid (the associative binary operation and the identity), 
+Now that we know what makes a Monoid, we know the rules a Set has to obey to form a Monoid (the associative binary operation and the identity), 
 we can turn that into code by creating an interface :
 
 ```TS
+// T is the 'Set' we're working with
 interface Monoid<T> {
   op: (x: T, y: T) => T
   id: T
 }
 ```
+
+It's a very small and simple interface for a very simple yet powerful concept ! 
+Now, let's rewrite the list concatenation Monoid using this interface :
+
+```TS
+const monoidNumArray : Monoid<number[]> = {
+  op(x: number[], y: number[]) : number[] {
+    return x.concat(y);
+  },
+  id: []
+}
+```
+
+Wonderful ! We know what monoids are, we can implement new monoids for our custom types, but why ? Why should we bother aboout all that ?
 
 ## Why you should care about it ? 
 
