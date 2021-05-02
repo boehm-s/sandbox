@@ -10,23 +10,20 @@ Wikipedia tells us that a Monoid is "a set equipped with an associative binary o
 Which means that a Monoid is the following 3 things together : 
 
 - **S**  : a set, like the set of natural numbers, which contains the "counting numbers"
-- **•**  : an associative binary operation on two elements of S, returning a new element of S
+- **•**  : an [associative](https://en.wikipedia.org/wiki/Associative_property) binary operation on two elements of S, returning a new element of S (such as *(x • y) • z == x • (y • z)* )
 - **e**  : an element of S neutral (having no effect) under the operation • on both left and right side (such as e • *x* == *x* == *x* • e)
 
-### If that didn't clear things up, examples will help !
+### If that didn't clear things up, let's see some examples
 
-The most common examples of Monoids are displayed in the table below.
-
-You can read the table like that : **S** form a Monoid under **•** with **e** as neutral element,
-
+You can read the table below like that : "**S** form a Monoid under **•** with **e** as neutral element". 
 So **Inegers** form a Monoid under **addition** with **0** as neutral element ... 
 
-| **S**                  |  **•**           | **e**                  | *example (identity)*                      |
-|------------------------|------------------|------------------------|-------------------------------------------|
-| Integers               | *addition*       | `0`                    | `42 + 0 === 42 && 42 === 0 + 42`          |
-| Integers               | *multiplication* | `1`                    | `42 * 1 === 42 && 42 === 1 * 42`          |
-| Lists                  | *concatenation*  | `[]` (empty list)      | `[4, 8].concat([])` ⇔ `[].concat([4, 8])` |
-| Associative containers | *merge*          | `{}` (empty container) | `{...{}, foo: 42}` ⇔ `{foo: 42, ...{}}`   |
+| **S**                  | **•**            | **e**                  | *example of identity*                     | *example of associativity*                                                    |
+|------------------------|------------------|------------------------|-------------------------------------------|-------------------------------------------------------------------------------|
+| Integers               | *addition*       | `0`                    | `42 + 0 === 42 && 42 === 0 + 42`          | `(4 + 8) + 15 === 4 + (8 + 15)`                                               |
+| Integers               | *multiplication* | `1`                    | `42 * 1 === 42 && 42 === 1 * 42`          | `(4 * 8) * 15 === 4 * (8 * 15)`                                               |
+| Lists                  | *concatenation*  | `[]` (empty list)      | `[4, 8].concat([])` ⇔ `[].concat([4, 8])` | `[4].concat([8, 15].concat([16]))` ⇔ `[4].concat([8, 15]).concat([16])`       |
+| Associative containers | *merge*          | `{}` (empty container) | `{...{}, foo: 4}` ⇔ `{foo: 4, ...{}}`     | `{foo: 4, ...{bar: 8, ...{baz: 15}}}` ⇔ `{foo: 4, ...{bar: 8}, ...{baz: 15}}` |
 
 By now, you should have realized that Monoids are pretty much everywhere, but before diving into the core of the concept, 
 let's write a little piece of code to illustrate what we're talking about :
@@ -39,6 +36,7 @@ const e   : string = "";      // empty list of character
 e + str === e;                // => true (neutral on the left side)
 str + e === e;                // => true (neutral on the right side)
 
+(str + " ") + "world" === str + (" " + "world") // => true (associativity)
 
 // For arrays, the associative binary operation is the concat method :
 // To compare arrays by values, we'll use Ramda's function R.equals
@@ -51,7 +49,7 @@ R.equals(numArray.concat(e), numArray);   // => true (neutral on the right side)
 
 ### The Monoid Interface
 
-Now that we know what makes a Monoid, we know the rules a Set has to obey to form a Monoid (the associative binary operation and the identity), 
+Now that we know what makes a Monoid (the associative binary operation and the identity),
 we can turn that into code by creating an interface :
 
 ```TS
@@ -61,6 +59,8 @@ interface Monoid<T> {
   id: T
 }
 ```
+
+> This interface is purposely simplistic and if you intend to bring functional programming to your projects, you should consider using appropriate tools such as the excellent [fp-ts library](https://github.com/gcanti/fp-ts) !
 
 It's a very small and simple interface for a very simple yet powerful concept ! 
 Now, let's rewrite the list concatenation Monoid using this interface :
@@ -72,9 +72,19 @@ const monoidNumArray : Monoid<number[]> = {
   },
   id: []
 }
+
+const ex1 = [4, 8, 15];
+const ex2 = [16, 23, 42];
+
+monoidNumArray.op(ex1, ex2); // => [4, 8, 15, 16, 23, 42]
+monoidNumArray.op(monoidNumArray.id, ex1); //  => [4, 8, 15] (left identity)
+monoidNumArray.op(ex1, monoidNumArray.id); //  => [4, 8, 15] (right identity)
 ```
 
-Wonderful ! We know what monoids are, we can implement new monoids for our custom types, but why ? Why should we bother aboout all that ?
+Wonderful ! We know what monoids are and how to create new ones, but why ? Why should we go to the 
+trouble of creating new monoids and using this kind of interface for just concatenating arrays or merging objects ?
+
+Because monoids have properties that allows us to implement complex behaviors in a simple and elegant way ... // trouver meilleure tournure
 
 ## Why you should care about it ? 
 
