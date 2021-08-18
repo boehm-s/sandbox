@@ -15,8 +15,8 @@ Which means that a Monoid is the following 3 things together :
 
 ### If that didn't clear things up, let's see some examples
 
-You can read the table below like that : "**S** form a Monoid under **•** with **e** as neutral element". 
-So **Inegers** form a Monoid under **addition** with **0** as neutral element ... 
+You can read the table below like that : "**S** form a Monoid under **•** with **e** as neutral element".<br/>
+> **Integers** form a Monoid under **addition** with **0** as neutral element ... 
 
 | **S**                  | **•**            | **e**                  | *example of identity*                     | *example of associativity*                                                    |
 |------------------------|------------------|------------------------|-------------------------------------------|-------------------------------------------------------------------------------|
@@ -29,7 +29,7 @@ By now, you should have realized that Monoids are pretty much everywhere, but be
 let's write a little piece of code to illustrate what we're talking about :
 
 ```TS
-// For character list, the associative binary operation is + (string concatenation) and we have : 
+// For strings (character list), the associative binary operation is + (string concatenation) and we have : 
 
 const str : string = "Hello";
 const e   : string = "";      // empty list of character
@@ -84,8 +84,18 @@ monoidNumArray.op(ex1, monoidNumArray.id); //  => [4, 8, 15] (right identity)
 Wonderful ! We know what monoids are and how to create new ones, but why ? Why should we go to the 
 trouble of creating new monoids and using this kind of interface for just concatenating arrays or merging objects ?
 
-Because monoids have properties that allows us to implement complex behaviors in a simple and elegant way ... // trouver meilleure tournure
-
 ## Why you should care about it ? 
 
-## Real world use case
+Because monoids allows us to abstract complex behaviors out of simple pieces, and that's what we're going to see !
+
+### Reducing
+
+Since this is a JS/TS article, I assume that the reader is familiar with [the reduce function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce).
+
+Using a reducer on a monoid allows us to **generalize a pairwise operation to an infinite number of items** (the monoid operation)
+
+### Parallelization
+
+### Incremental accumulation
+
+## Real world examples
